@@ -10,9 +10,9 @@ if (process.env.PORT) {
   PORT = 8000;
 }
 var Cloudant = require('@cloudant/cloudant');
-var url = "https://apikey-v2-197dnkn3t48agl1wuzpj91l7lo4dkifrzhim8wjf5ykg:0f75c4be5fda84f99a0d4c582ef21b89@3447fb1b-02ae-4331-923a-607d107471ea-bluemix.cloudantnosqldb.appdomain.cloud";
-var username = "apikey-v2-197dnkn3t48agl1wuzpj91l7lo4dkifrzhim8wjf5ykg";
-var password = "0f75c4be5fda84f99a0d4c582ef21b89";
+var url = "https://apikey-v2-2eels6ra2yaiuyd3pwgaq0bot9pe3q1jj32p31yj6uy0:e0dd80ed52d94697dbd5f9f5531ca012@51db3d2f-f8a3-46d2-bf7c-54d7bd6cb706-bluemix.cloudantnosqldb.appdomain.cloud";
+var username = "apikey-v2-2eels6ra2yaiuyd3pwgaq0bot9pe3q1jj32p31yj6uy0";
+var password = "e0dd80ed52d94697dbd5f9f5531ca012";
 var app = express();
 const bodyParser = require('body-parser');
 //const cors = require('cors');
@@ -27,7 +27,7 @@ app.get('/', function (req, res) {
 
 
 
-//////////
+////////// bhavesh code
 app.get('/list_of_databases', function (req, res) {
   
 Cloudant({ url: url, username: username, password: password }, function(err, cloudant, pong) {
