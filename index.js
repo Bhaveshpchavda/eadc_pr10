@@ -95,48 +95,34 @@ cloudant.use(database_name).insert({ "name": name, "address": address, "phone": 
 
 
 
-/////   insert bulk documents
-app.post('/insert-bulk/:database_name', function (req, res) {
-var _id,name,address,phone,age;
-//var database_name;
-var database_name1=req.params.database_name;
+app.post("/insert-bulk/:database_name", function (req, res) {
+    const database_name = req.params.database_name;
+    const students = req.body.docs.slice(0, 3).map(doc => ({
+        _id: doc.id,
+        name: doc.name,
+        address: doc.address,
+        phone: doc.phone,
+        age: doc.age
+    }));
 
-for (var i=0;i<3;i++) {
+    Cloudant({ url: url, username: username, password: password }, function (err, cloudant) {
+        if (err) {
+            console.error("Failed to initialize Cloudant:", err.message);
+            return res.status(500).send("Internal Server Error");
+        }
 
-  var student=
-{
-_id: req.body.docs[i].id,
-        name: req.body.docs[i].name,
-        address: req.body.docs[i].address,
-        phone: req.body.docs[i].phone,
-        age: req.body.docs[i].age,
-}
-//console.log(student);
+        const db = cloudant.use(database_name);
 
+        db.bulk({ docs: students }, function (err) {
+            if (err) {
+                console.error("Failed to insert documents:", err.message);
+                return res.status(500).send("Failed to insert documents");
+            }
 
-
-students.push(student);
-
-
-}
-
-console.log(students);
-Cloudant({ url: url, username: username, password: password }, function(err, cloudant, pong) {
-  if (err) {
-    return console.log('Failed to initialize Cloudant: ' + err.message);
-  }
-console.log(pong); // {"couchdb":"Welcome","version": ..
-
-cloudant.use(database_name1).bulk({ docs:students }, function(err) {
-  if (err) {
-    throw err;
-  }
-
-  res.send('Inserted all documents');
+            res.send("Inserted all documents");
+        });
+    });
 });
-});
-}); 
-
 
 
 
